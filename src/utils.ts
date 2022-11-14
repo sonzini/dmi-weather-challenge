@@ -4,11 +4,10 @@ export const validUnits = ['metric', 'imperial', 'kelvin']
 
 const envSchema = {
   type: 'object',
-  required: ['OPEN_WEATHER_API_KEY'],
+  required: [],
   properties: {
     OPEN_WEATHER_API_KEY: {
       type: 'string',
-      default: '22de5a64325caf751181a96544a72375' // For simplification
     }
   }
 }
