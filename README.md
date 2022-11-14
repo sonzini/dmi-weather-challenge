@@ -12,6 +12,8 @@ before running any script remember installing all dependencies running
 npm install
 ```
 
+and creating the `.env` file following the `.env.example`. For running the project you need to provide an `OPEN_WEATHER_API_KEY`. This data is going to be specified in the email or you can use your own.
+
 ### To start the development mode:
 ```
 npm run dev
