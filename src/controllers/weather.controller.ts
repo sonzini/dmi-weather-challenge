@@ -44,7 +44,7 @@ const getWeatherByCity = (fastify) => async (request: WeatherRequest, reply: Fas
 
   try {
     // Service request
-    const temperature = await weatherService.getCityTemperature(fastify)(city, units)
+    const temperature = await weatherService.getCityTemperature(fastify)(city, _units)
   
     // Format data
     return {

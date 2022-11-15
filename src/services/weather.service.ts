@@ -1,4 +1,4 @@
-const getCityTemperature = (fastify) => async(city: String, units: String) => {
+const getCityTemperature = (fastify) => async (city: String, units: String) => {
   try {
     const storeKey = JSON.stringify({
       city,
@@ -11,9 +11,15 @@ const getCityTemperature = (fastify) => async(city: String, units: String) => {
       return storedData
     }
 
-    // Call plugin
-    const response = await fastify.getWeatherByCity(city, units)
-    const { temp } = response.main;
+    // Get latitude and longitude
+    const { data: geoData } = await fastify.getGeoByCity(city)
+    const lat = geoData[0].lat
+    const lon = geoData[0].lon
+
+    // Get weather
+    const { data: weatherData } = await fastify.getWeatherByGeo(lat, lon, units)
+
+    const { temp } = weatherData.main;
 
     // Store data in cache
     fastify.addCache(storeKey, temp)
