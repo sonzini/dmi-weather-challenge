@@ -1,4 +1,4 @@
-const getCityTemperature = (fastify) => async (city: String, units: String) => {
+const getCityTemperature = async (city: string, units: string, fastify) => {
   try {
     const storeKey = JSON.stringify({
       city,

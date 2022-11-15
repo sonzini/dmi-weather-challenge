@@ -1,6 +1,6 @@
 import { join } from 'path';
 import AutoLoad, { AutoloadPluginOptions } from '@fastify/autoload';
-import { FastifyPluginAsync } from 'fastify';
+import { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import { envOptions } from './config';
 import fastifyAxios from 'fastify-axios';
 import fastifyEnv from '@fastify/env';
@@ -15,7 +15,7 @@ const options: AppOptions = {
 }
 
 const app: FastifyPluginAsync<AppOptions> = async (
-  fastify: any,
+  fastify: FastifyInstance,
   opts
 ): Promise<void> => {
   // Env vars

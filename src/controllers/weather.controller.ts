@@ -1,67 +1,50 @@
-import { FastifyReply, FastifyRequest } from "fastify"
 import weatherService from "../services/weather.service"
 import { validUnits } from "../utils"
 
-type WeatherRequest = FastifyRequest<{
-  Querystring: {
-    tempToCompare: String,
-    units: string,
-    city: String,
-  }
-}>
 
-const getWeatherByCity = (fastify) => async (request: WeatherRequest, reply: FastifyReply) => {
-  let { city, units, tempToCompare } = request.query
+
+const getWeatherByCity = async (query, fastify) => {
+  const { city, units, tempToCompare } = query
 
   // DEFAULTS
   let _units = 'metric'
   let _tempToCompare = 15
 
-  try {
-    // VALIDATION & ASSIGN
-    if (!city) {
-      throw new Error('City is missing. Please read the documentation and try again.')
-    }
-
-    if (units) {
-      if (!validUnits.includes(units)) {
-        throw new Error('Units invalid. Try "metric" (default), "imperial" or "kelvin"')
-      } else {
-        _units = units
-      }
-    } 
-
-    if (tempToCompare) {
-      if (isNaN(+tempToCompare)) {
-        throw new Error('tempToCompare should be a number. Please read the documentation and try again.')
-      } else {
-        _tempToCompare = +tempToCompare
-      }
-    }
-  } catch (error: any) {
-    reply.badRequest(error.message)
+  // VALIDATION & ASSIGN
+  if (!city) {
+    throw new Error('City is missing. Please read the documentation and try again.')
   }
 
-  try {
-    // Service request
-    const temperature = await weatherService.getCityTemperature(fastify)(city, _units)
-  
-    // Format data
-    return {
-      city,
-      temperature,
-      units: _units,
-      comparison: {
-        tempToCompare: _tempToCompare,
-        isGreater: temperature > _tempToCompare,
-        isLess: temperature < _tempToCompare,
-      }
+  if (units) {
+    if (!validUnits.includes(units)) {
+      throw new Error('Units invalid. Try "metric" (default), "imperial" or "kelvin"')
+    } else {
+      _units = units
     }
-  } catch (error: any) {
-    reply.badGateway(error.message)
   }
 
+  if (tempToCompare) {
+    if (isNaN(+tempToCompare)) {
+      throw new Error('tempToCompare should be a number. Please read the documentation and try again.')
+    } else {
+      _tempToCompare = +tempToCompare
+    }
+  }
 
+  // Service request
+  const temperature = await weatherService.getCityTemperature(city, _units, fastify)
+
+  // Format data
+  return {
+    city,
+    temperature,
+    units: _units,
+    comparison: {
+      tempToCompare: _tempToCompare,
+      isGreater: temperature > _tempToCompare,
+      isLess: temperature < _tempToCompare,
+    }
+  }
 }
 
 export default {

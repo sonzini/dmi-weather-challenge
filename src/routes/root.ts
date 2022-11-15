@@ -1,11 +1,11 @@
 import { FastifyPluginAsync } from 'fastify'
 
-const root: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
-  fastify.get('/', async(request, reply) => {
+const root: FastifyPluginAsync = async (fastify): Promise<void> => {
+  fastify.get('/', async () => {
     return { root: true }
   })
 
-  fastify.get('/ping', async(request, reply) => {
+  fastify.get('/ping', async () => {
     return 'pong'
   })
 }

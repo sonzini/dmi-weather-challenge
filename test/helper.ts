@@ -1,5 +1,5 @@
 // This file contains code that we reuse between our tests.
-import Fastify from 'fastify'
+import Fastify, { FastifyInstance } from 'fastify'
 import fp from 'fastify-plugin'
 import App from '../src/app'
 
@@ -11,7 +11,7 @@ async function config() {
 
 // Automatically build and tear down our instance
 function build() {
-  const app: any = Fastify();
+  const app: FastifyInstance = Fastify();
 
   // fastify-plugin ensures that all decorators
   // are exposed for testing purposes, this is
