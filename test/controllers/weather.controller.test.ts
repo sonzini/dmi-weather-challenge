@@ -4,7 +4,7 @@ import weatherController from '../../src/controllers/weather.controller';
 import weatherService from '../../src/services/weather.service';
 import { build } from '../helper'
 
-describe('weather tests', () => {
+describe('weather controller tests', () => {
   const app: FastifyInstance = build();
 
   test('with minimum params', async () => {
