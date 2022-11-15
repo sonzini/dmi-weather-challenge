@@ -1,7 +1,7 @@
 import { join } from 'path';
 import AutoLoad, { AutoloadPluginOptions } from '@fastify/autoload';
 import { FastifyPluginAsync } from 'fastify';
-import { axiosOptions, envOptions } from './utils';
+import { envOptions } from './config';
 import fastifyAxios from 'fastify-axios';
 import fastifyEnv from '@fastify/env';
 
@@ -15,12 +15,21 @@ const options: AppOptions = {
 }
 
 const app: FastifyPluginAsync<AppOptions> = async (
-  fastify,
+  fastify: any,
   opts
 ): Promise<void> => {
-  // Place here your custom code!
-  fastify.register(fastifyAxios, axiosOptions)
-  fastify.register(fastifyEnv, envOptions)
+  // Env vars
+  await fastify.register(fastifyEnv, envOptions)
+
+  // Axios
+  const axiosOptions = {
+    clients: {
+      openWeather: {
+        baseURL: fastify.config.OPEN_WEATHER_API_URL
+      }
+    }
+  }
+  await fastify.register(fastifyAxios, axiosOptions)
 
   // Do not touch the following lines
 
