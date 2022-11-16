@@ -1,7 +1,8 @@
+import { FastifyInstance } from 'fastify';
 import { build } from '../helper'
 
 describe('cache tests', () => {
-  const app: any = build();
+  const app: FastifyInstance = build();
 
   test('Is saving', async () => {
     const key = 'key to test'
