@@ -31,6 +31,11 @@ npm start
 npm run test
 ```
 
+### To run the EsLint.
+```
+npm run lint
+```
+
 
 ## Usage of weather endpoint
 
