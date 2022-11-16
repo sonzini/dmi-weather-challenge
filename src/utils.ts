@@ -1,1 +1,1 @@
-export const validUnits = ['metric', 'imperial', 'kelvin']
+export const validUnits = Object.freeze(['metric', 'imperial', 'kelvin'])
